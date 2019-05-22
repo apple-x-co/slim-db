@@ -52,7 +52,10 @@ class UsersController
     public function detail($request, $response, $args)
     {
         $id = $args['id'];
+        $user = User::find($id);
 
-        return $this->view->render($response, 'users/detail.twig');
+        return $this->view->render($response, 'users/detail.twig', [
+            'user' => $user
+        ]);
     }
 }
