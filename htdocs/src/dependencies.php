@@ -4,6 +4,7 @@ use Slim\App;
 
 return function (App $app) {
     $container = $app->getContainer();
+    $is_debug = $container->get('settings')['debug'];
 
     // validator
     $container['validator'] = function () {
@@ -58,6 +59,24 @@ return function (App $app) {
         $logger->pushHandler(new \Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
         return $logger;
     };
+
+    // debugbar
+    $settings = $container->get('settings')['debugbar'];
+    if ($is_debug) {
+        $provider = new \Kitchenu\Debugbar\ServiceProvider($settings);
+        $provider->register($app);
+
+        $debugbar = $container['debugbar'];
+
+        $logger = new \Monolog\Logger('slim-app');
+        $debugbar->addCollector(new \DebugBar\Bridge\MonologCollector($logger));
+
+        $loader = new \Twig_Loader_Filesystem('.');
+        $env = new \DebugBar\Bridge\Twig\TraceableTwigEnvironment(new Twig_Environment($loader));
+        $debugbar->addCollector(new \DebugBar\Bridge\Twig\TwigCollector($env));
+
+        $debugbar->addCollector(new \App\Extension\DebugbarExtension\EloquentCollector($container['db']));
+    }
 
     // controllers
     $container[\App\Controller\UsersController::class] = function($c) {

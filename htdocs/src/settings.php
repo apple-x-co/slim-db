@@ -2,6 +2,7 @@
 return [
     'settings' => [
         'determineRouteBeforeAppMiddleware' => false,
+        'debug'                             => (bool)getenv('DEBUG'),
         'displayErrorDetails'               => (bool)getenv('DISPLAY_ERRORS'), // set to false in production
         'addContentLengthHeader'            => false, // Allow the web server to send the content-length header
 
@@ -38,6 +39,14 @@ return [
             'name'  => 'slim-app',
             'path'  => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
             'level' => (bool)getenv('DEBUG') ? \Monolog\Logger::DEBUG : \Monolog\Logger::ERROR,
+        ],
+
+        // debugbar
+        'debugbar' => [
+            'storage' => [
+                'enabled' => true,
+                'path' => __DIR__. '/../logs/debug/',
+            ],
         ],
     ],
 ];
