@@ -1,0 +1,38 @@
+{% extends "default.twig" %}
+
+{% block title %}users | {{ parent() }}{% endblock %}
+
+{% block head_meta %}
+{% endblock %}
+
+{% block head_css %}
+{% endblock %}
+
+{% block head_js %}
+{% endblock %}
+
+{% block content %}
+    <div class="uk-section">
+        <div class="uk-container">
+            <h1>slim-db</h1>
+
+            <table class="uk-table">
+                <caption>users</caption>
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.name }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

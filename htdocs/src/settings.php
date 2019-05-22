@@ -15,7 +15,7 @@ return [
             'template_path' => __DIR__ . '/../templates/',
             'twig'          => [
                 'cache'       => __DIR__ . '/../cache/templates/',
-                'debug'       => true,
+                'debug'       => (bool)getenv('DEBUG'),
                 'auto_reload' => true,
             ],
         ],
@@ -27,7 +27,7 @@ return [
             'database'  => substr(parse_url(getenv('DATABASE_URL'), PHP_URL_PATH), 1),
             'username'  => parse_url(getenv('DATABASE_URL'), PHP_URL_USER),
             'password'  => parse_url(getenv('DATABASE_URL'), PHP_URL_PASS),
-            'charset'   => 'utf8mb4',
+            'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
             'timezone'  => '-09:00'

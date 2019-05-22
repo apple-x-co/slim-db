@@ -27,6 +27,12 @@ return function (App $app) {
         $this->view->render($response, 'index.phtml');
     });
 
-//    $app->any('/users/', \App\Controller\NewsController::class)
-//        ->setName('users');
+    $app->group('/users', function(App $app){
+        $app->get('/', \App\Controller\UsersController::class . ':index')
+            ->setName('users:index');
+
+        $app->get('/{id:[0-9]+}', \App\Controller\UsersController::class . ':detail')
+            ->setName('users:detail');
+    });
+
 };

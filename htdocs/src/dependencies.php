@@ -44,7 +44,6 @@ return function (App $app) {
     $container['db'] = function ($container) {
         $capsule = new \Illuminate\Database\Capsule\Manager;
         $capsule->addConnection($container['settings']['db']);
-
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
 
@@ -58,5 +57,12 @@ return function (App $app) {
         $logger->pushProcessor(new \Monolog\Processor\UidProcessor());
         $logger->pushHandler(new \Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
         return $logger;
+    };
+
+    // controllers
+    $container[\App\Controller\UsersController::class] = function($c) {
+        $view = $c->get('view');
+        $db = $c->get('db');
+        return new \App\Controller\UsersController($view, $db);
     };
 };
