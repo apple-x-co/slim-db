@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Model\User;
+use App\Model\UserLog;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Respect\Validation\Validator as V;
@@ -39,7 +40,8 @@ class UsersController
      */
     public function index($request, $response, $args)
     {
-        $users = User::all();
+        //$users = User::all();
+        $users = User::with('userLogs')->get();
 
         return $this->view->render($response, 'users/index.twig', [
             'users' => $users

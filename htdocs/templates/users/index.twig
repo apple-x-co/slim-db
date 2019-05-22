@@ -23,6 +23,7 @@
                 <tr>
                     <th>id</th>
                     <th>name</th>
+                    <th>log</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -30,6 +31,11 @@
                     <tr>
                         <td><a href="{{ path_for('users.detail', {'id':user.id}) }}">{{ user.id }}</a></td>
                         <td>{{ user.name }}</td>
+                        <td>
+                            {% for userLog in user.userLogs %}
+                                <p>{{ userLog.text }}</p>
+                            {% endfor %}
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>

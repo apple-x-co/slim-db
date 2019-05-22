@@ -15,4 +15,11 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model
 {
     protected $table = 'users';
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function userLogs() {
+        return $this->hasMany(UserLog::class);
+    }
 }
