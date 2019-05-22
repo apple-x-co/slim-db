@@ -82,6 +82,7 @@ return function (App $app) {
     $container[\App\Controller\UsersController::class] = function($c) {
         $view = $c->get('view');
         $db = $c->get('db');
-        return new \App\Controller\UsersController($view, $db);
+        $router = $c->get('router');
+        return new \App\Controller\UsersController($view, $db, $router);
     };
 };

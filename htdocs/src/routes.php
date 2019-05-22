@@ -31,6 +31,9 @@ return function (App $app) {
         $app->get('/', \App\Controller\UsersController::class . ':index')
             ->setName('users.index');
 
+        $app->get('/create', \App\Controller\UsersController::class . ':create')
+            ->setName('users.create');
+
         $app->get('/{id:[0-9]+}', \App\Controller\UsersController::class . ':detail')
             ->setName('users.detail');
     });

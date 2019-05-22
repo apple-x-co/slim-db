@@ -15,15 +15,19 @@ class UsersController
     /** @var \Illuminate\Database\Capsule\Manager */
     protected $db;
 
+
+    protected $router;
+
     /**
      * UsersController constructor.
      *
      * @param $view
      * @param $db
      */
-    public function __construct($view, $db) {
+    public function __construct($view, $db, $router) {
         $this->view = $view;
         $this->db = $db;
+        $this->router = $router;
     }
 
     /**
@@ -59,5 +63,24 @@ class UsersController
         return $this->view->render($response, 'users/detail.twig', [
             'user' => $user
         ]);
+    }
+
+    /**
+     * @param RequestInterface|\Slim\Http\Request $request
+     * @param ResponseInterface|\Slim\Http\Response $response
+     * @param array $args
+     *
+     * @return ResponseInterface
+     * @throws \Throwable
+     */
+    public function create($request, $response, $args)
+    {
+        $this->db->getConnection()->transaction(function () {
+            $user = new User();
+            $user->name = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 8);
+            $user->save();
+        });
+
+        return $response->withRedirect($this->router->pathFor('users.index'));
     }
 }
