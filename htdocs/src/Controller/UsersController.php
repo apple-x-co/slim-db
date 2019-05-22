@@ -53,6 +53,8 @@ class UsersController
     {
         $id = $args['id'];
         $user = User::find($id);
+        //$user = User::where('id', $id)->first();
+        //$user = User::findOrFail($id);
 
         return $this->view->render($response, 'users/detail.twig', [
             'user' => $user
